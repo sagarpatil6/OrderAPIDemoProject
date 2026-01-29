@@ -9,7 +9,7 @@ namespace CommonObjects.Models
     /// </summary>
     public class Order
     {
-        //[Key] // Database Primary Key
+        [Key] // Database Primary Key
         public int Id { get; set; }
         [Required]
         public string CustomerEmail { get; set; } = null;
@@ -22,7 +22,6 @@ namespace CommonObjects.Models
         public DateTimeOffset CreatedAt { get; set; }
         [NotMapped]
         public DateTime CreatedAtDateTIme { get; set; }
-
     }
 
 /*

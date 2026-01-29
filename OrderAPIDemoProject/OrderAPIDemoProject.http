@@ -1,8 +1,4 @@
 @OrderAPIDemoProject_HostAddress = http://localhost:5112
-
-GET {{OrderAPIDemoProject_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
 GET {{OrderAPIDemoProject_HostAddress}}/api/Order
 
@@ -14,10 +10,7 @@ Accept: application/json
 POST {{OrderAPIDemoProject_HostAddress}}/api/Order
 Content-Type: application/json
 {
-  "id": 3,
   "customerEmail": "a@b.com",
   "productCode": "001",
   "quantity": 50,
-  "status": "CREATED",
-  "createdAt": "2026-01-27T15:35:20.367Z"
 }

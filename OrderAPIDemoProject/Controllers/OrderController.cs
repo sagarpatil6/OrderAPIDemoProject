@@ -85,7 +85,7 @@ namespace OrderAPIDemoProject.Controllers
                     Quantity = newOrder.Quantity
                 };
                 //ToDo Id to be auto generated from DB
-                newOrderObj.Id = allOrders.Count > 0 ? allOrders.Max(o => o.Id) + 1 : 1;
+                //newOrderObj.Id = allOrders.Count > 0 ? allOrders.Max(o => o.Id) + 1 : 1;
                 newOrderObj.Status = Constants.OrderStatusCreated;
                 newOrderObj.CreatedAt = DateTimeOffset.UtcNow;
 
