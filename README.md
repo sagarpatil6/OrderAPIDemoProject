@@ -41,7 +41,8 @@ To use this project template, follow the steps below:
 7. Build NotificationService Project. We need to run this project directly thorugh Console for testing.(Not through Visual Studio)
 8. Run the `OrderAPIDemoProject` project to access the Swagger UI.
 9. Access [Rabbit MQ](http://localhost:15672/#/) to see Notification getting published by OrderService.
-10. Access PGAdmin to see DB table changes. All these steps are to run this solution Manually. Docker Steps : In progress
+10. Access PGAdmin to see DB table changes. All these steps are to run solution manually, Solution Working locally.
+11. Deployment on docker is still in progress. Completed for WebAPi 
 
 ## Configuration
 
