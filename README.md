@@ -38,7 +38,10 @@ To use this project template, follow the steps below:
 4. Build the solution to restore NuGet packages and compile the code.
 5. Configure the necessary database connection settings in the `appsettings.json` file of the Infrastructure project.
 6. Open the Package Manager Console, run the `Update-Database` command to create the database.
-7. Run the application by starting the `OrderAPIDemoProject` project.
+7. Build NotificationService Project. We need to run this project directly thorugh Console for testing.(Not through Visual Studio)
+8. Run the `OrderAPIDemoProject` project to access the Swagger UI.
+9. Access [Rabbit MQ](http://localhost:15672/#/) to see Notification getting published by OrderService.
+10. Access PGAdmin to see DB table changes. All these steps are to run this solution Manually. Docker Steps : In progress
 
 ## Configuration
 
