@@ -48,7 +48,7 @@ To use this project template, follow the steps below:
 1. PGSQL: database connection settings in the `appsettings.json`
 2. RabbitMQ: Localhost and for Management UI access: http://localhost:15672/ (Username: guest and password: guest) 
 
-## Data Formats and Sample Files
+## APIs and Request Payloads
 
 Order API Endpoints
 Endpoint: POST /api/Order
