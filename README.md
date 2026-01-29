@@ -70,7 +70,6 @@ Content-Type: application/json
 
 ## Error-Handling Strategy
 
-[The project template](https://binarybytez.com/asp-net-core-web-api-project/) provides a starting point for building RESTful APIs using ASP.NET Core. You can modify and extend the existing code to suit your specific application requirements. Here's an overview of the key components involved in building RESTful APIs:
-
 1. Exception Handling: Handling most of the exceptions and translates them into appropriate HTTP 500 Internal Server Errors with a Problem Details payload.
 2. Validation Errors: Model validation failures (e.g., invalid input formats) automatically return HTTP 400 Bad Request responses, detailing which fields are incorrect.
+
