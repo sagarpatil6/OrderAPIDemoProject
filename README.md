@@ -1,6 +1,6 @@
 # ASP.NET Core Web API: .NET 8:
 # OrderAPIDemoProject
-This is demo solution with 3 sub projects, mainly implementing Web API to provide Orders APIs and Workedr Service to Process RabbitMQ Message Queue Notifications.
+This is demo solution with 3 sub projects, mainly implementing Web API to provide Orders APIs and Worker Service to Process RabbitMQ Message Queue Notifications.
 
 #### Source Code
 https://github.com/sagarpatil6/OrderAPIDemoProject.git
