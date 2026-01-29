@@ -42,7 +42,7 @@ To use this project template, follow the steps below:
 8. Run the `OrderAPIDemoProject` project to access the Swagger UI.
 9. Access [Rabbit MQ](http://localhost:15672/#/) to see Notification getting published by OrderService.
 10. Access PGAdmin to see DB table changes. All these steps are to run solution manually, Solution Working locally.
-11. Deployment on docker is still in progress. Completed for WebAPi 
+11. Deployment on docker is still in progress. Completed for WebAPI Project.
 
 ## Configuration
 
