@@ -34,9 +34,27 @@ namespace NotificationService
         {
             try
             {
-                _logger.LogInformation("Init RabbitMQ Conection");
-                _connection = await _factory.CreateConnectionAsync(stoppingToken);
-                _channel = await _connection.CreateChannelAsync();
+                int retryCount = 0;
+                while (retryCount < 3)
+                {
+                    try
+                    {
+
+                        _logger.LogInformation("Init RabbitMQ Conection");
+                        _connection = await _factory.CreateConnectionAsync(stoppingToken);
+                        _channel = await _connection.CreateChannelAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        retryCount++;
+                        Console.WriteLine("RabbitMQ not ready, retrying in 10s...");
+                        Thread.Sleep(10000); // Wait 10 seconds
+                        if (retryCount == 3)
+                        {
+                            throw;
+                        }
+                    }
+                }
                 _logger.LogInformation("Listen to Queue: " + QueueName);
 
                 await _channel.QueueDeclareAsync(queue: QueueName,
