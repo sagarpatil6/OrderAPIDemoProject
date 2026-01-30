@@ -98,7 +98,7 @@ namespace OrderAPIDemoProject.Controllers
                 }
                 else
                 {
-                    return StatusCode(500, new { message = "An internal server error occurred:", detail = "Failure while creating order in DB" });
+                    return StatusCode(500, new { message = "An internal server error occurred:", detail = "Failure while processing order in DB" });
                 }
             }
             catch (Exception ex)

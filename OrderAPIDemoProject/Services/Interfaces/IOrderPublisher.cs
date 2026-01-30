@@ -5,6 +5,6 @@ namespace OrderAPIDemoProject.Services.Interfaces
 {
     public interface IOrderPublisher
     {
-        void PublishOrder(Notification notification);
+        Task<bool> PublishOrder(Notification notification);
     }
 }

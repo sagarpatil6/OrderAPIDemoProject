@@ -46,7 +46,7 @@ namespace OrderAPIDemoProject.Services
             await _context.SaveChangesAsync();
             order.CreatedAtDateTIme = order.CreatedAt.ToLocalTime().DateTime;
             _logger.LogInformation("Publish Order");
-            _publisher.PublishOrder(new Notification()
+            bool isPublished = await _publisher.PublishOrder(new Notification()
             {
                 Id = order.Id,
                 OrderId = order.Id.ToString(),
@@ -56,7 +56,18 @@ namespace OrderAPIDemoProject.Services
                 CreatedAt = order.CreatedAtDateTIme,
                 ErrorMessage = ""
             });
-            return order;
+            if (isPublished)
+            {
+                return order;
+            }
+            else
+            {
+                _logger.LogInformation("Order is not published. Reverting DB changes");
+                _logger.LogInformation("Remove order from Database");
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+                return null;
+            }
         }
 
         /// <summary>

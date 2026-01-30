@@ -1,4 +1,5 @@
 ﻿using CommonObjects.Models;
+using Microsoft.Extensions.Options;
 using OrderAPIDemoProject.Controllers;
 using OrderAPIDemoProject.Services.Interfaces;
 using RabbitMQ.Client;
@@ -17,9 +18,11 @@ namespace OrderAPIDemoProject.Services.MessageQueue
         private readonly ConnectionFactory _factory = null;
         private string QueueName = CommonObjects.Models.Constants.OrderQueueName;
         private readonly ILogger<OrderController> _logger = null;
-        public OrderPublisher(ILogger<OrderController> logger)
+        private readonly RabbitMQConfig _rabbitMQConfig;
+        public OrderPublisher(ILogger<OrderController> logger, IOptions<RabbitMQConfig> options)
         {
-            _factory = new ConnectionFactory() { HostName = "localhost" };
+            _rabbitMQConfig = options.Value;
+            _factory = new ConnectionFactory() { HostName = _rabbitMQConfig.HostName };
             _logger = logger;
         }
 
@@ -40,8 +43,9 @@ namespace OrderAPIDemoProject.Services.MessageQueue
             _logger.LogInformation("Order Queue Initialized");
         }
 
-        public async void PublishOrder(Notification notification)
+        public async Task<bool> PublishOrder(Notification notification)
         {
+            bool isSucess = false;
             try
             {
                 _logger.LogInformation("Publish order");
@@ -53,13 +57,14 @@ namespace OrderAPIDemoProject.Services.MessageQueue
                                       body: details);
                 //Log
                 _logger.LogDebug("Order published");
-
+                isSucess = true;
             }
             catch (Exception ex)
             {
                 //Log
-                _logger.LogError("Order publishe error: " + ex.Message);
+                _logger.LogError("Order publish error: " + ex.Message);
             }
+            return isSucess;
         }
         public async ValueTask DisposeAsync()
         {

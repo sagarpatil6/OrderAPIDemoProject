@@ -1,4 +1,5 @@
 using CommonObjects.Models;
+using Microsoft.Extensions.Options;
 using NotificationService.Data;
 using NotificationService.Services;
 using RabbitMQ.Client;
@@ -18,12 +19,14 @@ namespace NotificationService
         private IChannel _channel = null;
         private readonly ConnectionFactory _factory = null;
         private string QueueName = CommonObjects.Models.Constants.OrderQueueName;
+        private readonly RabbitMQConfig _rabbitMQConfig;
 
-        public Worker(ILogger<Worker> logger, IServiceScopeFactory scopeFactory)
+        public Worker(ILogger<Worker> logger, IServiceScopeFactory scopeFactory, IOptions<RabbitMQConfig> options)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            _rabbitMQConfig = options.Value;
+            var factory = new ConnectionFactory() { HostName = _rabbitMQConfig.HostName };
             _factory = factory;
         }
 
@@ -34,7 +37,7 @@ namespace NotificationService
                 _logger.LogInformation("Init RabbitMQ Conection");
                 _connection = await _factory.CreateConnectionAsync(stoppingToken);
                 _channel = await _connection.CreateChannelAsync();
-                _logger.LogInformation("Listent to Queue: " + QueueName);
+                _logger.LogInformation("Listen to Queue: " + QueueName);
 
                 await _channel.QueueDeclareAsync(queue: QueueName,
                                      durable: false, // Messages will not survive a server restart
@@ -70,6 +73,7 @@ namespace NotificationService
                         //Log
                         _logger.LogError("Error while recieving notifcation: " + ex.Message);
                         _logger.LogDebug("Requeue Message");
+                        //Need to review this, added for demo project only
                         await _channel.BasicNackAsync(ea.DeliveryTag, false, true);
                     }
                     await Task.Yield();

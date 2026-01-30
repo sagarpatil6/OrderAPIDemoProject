@@ -12,5 +12,5 @@ Content-Type: application/json
 {
   "customerEmail": "a@b.com",
   "productCode": "001",
-  "quantity": 50,
+  "quantity": 50
 }

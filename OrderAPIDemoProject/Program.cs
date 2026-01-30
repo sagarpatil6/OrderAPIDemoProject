@@ -1,3 +1,4 @@
+using CommonObjects.Models;
 using Microsoft.EntityFrameworkCore;
 using OrderAPIDemoProject.Services.Interfaces;
 
@@ -11,9 +12,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext <OrderAPIDemoProject.Data.OrderDbContext> (options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDatabaseConnString")));
+// Configure the RabbitMQ settings
+builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection(RabbitMQConfig.SectionName));
 builder.Services.AddScoped<IOrderService, OrderAPIDemoProject.Services.OrderService>();
 builder.Services.AddScoped<IValidateOrderService, OrderAPIDemoProject.Services.OrderService>();
 builder.Services.AddSingleton<IOrderPublisher, OrderAPIDemoProject.Services.MessageQueue.OrderPublisher>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

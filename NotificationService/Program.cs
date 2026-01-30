@@ -1,3 +1,4 @@
+using CommonObjects.Models;
 using Microsoft.EntityFrameworkCore;
 using NotificationService;
 using NotificationService.Data;
@@ -11,6 +12,7 @@ builder.Services.AddScoped<INotification, NotificationProcessor>();
 builder.Services.AddDbContext<NotificationProcessorDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDatabaseConnString"))
 );
+builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection(RabbitMQConfig.SectionName));
 //builder.Services.AddDbContext<NotificationProcessorDbContext>(options =>
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDatabaseConnString")));
 var host = builder.Build();

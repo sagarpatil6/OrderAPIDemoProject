@@ -54,6 +54,11 @@ namespace NotificationService.Services
                         _logger.LogWarning("Order Status recieved is different than Created/Cancelled: " + order.Status);
                     }
                 }
+                else
+                {
+                    //Log
+                    _logger.LogWarning("Order not found: " + order.Id);
+                }
             }
             catch (Exception ex)
             {
