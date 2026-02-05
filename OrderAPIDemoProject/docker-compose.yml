@@ -1,0 +1,52 @@
+services:
+  api-v3:
+    image: order-api-img-v3
+    build:
+      context: ..
+      dockerfile: OrderAPIDemoProject/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - RabbitMQ__HostName=rabbitmq-v3
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__OrderDatabaseConnString=Host=db-v3;Port=5432;Database=EFTest1;Username=postgres;Password=postgres;MaxPoolSize=2;
+      - RabbitMQ__Host=rabbitmq
+    depends_on:
+      - db-v3
+      - rabbitmq-v3
+
+  notification-service-v2:
+    image: notification-service-img-v3
+    build:
+      context: ..
+      dockerfile: NotificationService/Dockerfile
+    environment:
+      - RabbitMQ__HostName=rabbitmq-v3
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__OrderDatabaseConnString=Host=db-v3;Port=5432;Database=EFTest1;Username=postgres;Password=postgres;MaxPoolSize=2;
+    depends_on:
+      - rabbitmq-v3
+
+  rabbitmq-v3:
+    image: micdenny/rabbitmq-windows:3.9.22-servercore-ltsc2022
+    container_name: rabbitmq-v3
+    hostname: rabbitmq-v3
+    ports:
+      - "5672:5672"   # RabbitMQ Port
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  db-v3:
+    container_name: postgres-db-v3
+    image: sokigo/postgresql-windows:10.14-2022
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=EFTest1
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./sql:C:/scripts/initdb.d
+    ports:
+      - "5432:5432"
