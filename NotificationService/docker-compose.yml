@@ -1,0 +1,36 @@
+services:
+
+  notification-service-v2:
+    image: notification-service-img-v2
+    build:
+      context: ..
+      dockerfile: NotificationService/Dockerfile
+    environment:
+      - RabbitMQ__HostName=rabbitmq-v2
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__OrderDatabaseConnString=Host=db;Port=5432;Database=EFTest1;Username=postgres;Password=postgres;MaxPoolSize=2;
+    depends_on:
+      - rabbitmq-v2
+
+  rabbitmq-v2:
+    image: micdenny/rabbitmq-windows:3.9.22-servercore-ltsc2022
+    container_name: rabbitmq-v2
+    hostname: rabbitmq-v2
+    ports:
+      - "5672:5672"   # RabbitMQ Port
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  db-v2:
+    container_name: postgres-db-v2
+    image: sokigo/postgresql-windows:10.14-2022
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=EFTest1
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./sql:C:/scripts/initdb.d
+    ports:
+      - "5432:5432"
