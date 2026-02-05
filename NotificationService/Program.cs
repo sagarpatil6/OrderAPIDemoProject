@@ -13,6 +13,10 @@ builder.Services.AddDbContext<NotificationProcessorDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDatabaseConnString"))
 );
 builder.Services.Configure<RabbitMQConfig>(builder.Configuration.GetSection(RabbitMQConfig.SectionName));
+
+var rabbitHost = builder.Configuration["RabbitMQ:HostName"];
+Console.WriteLine($"RabbitMQ Host: {rabbitHost}");
+//_logger.LogInformation($"RabbitMQ Host: {rabbitHost}");
 //builder.Services.AddDbContext<NotificationProcessorDbContext>(options =>
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDatabaseConnString")));
 var host = builder.Build();
